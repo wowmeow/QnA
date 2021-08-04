@@ -40,12 +40,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { patch_update }
 
       it 'changes question attributes' do
-        # question.reload
-
-        expect(question.reload.title).to eq 'new title'
-        # expect { patch_update }.to change { question.reload.title }.from('MyString').to('new title')
-        expect(question.reload.body).to eq 'new body'
-        # expect { patch_update }.to change { question.body.reload }.from(:body).to('new body')
+        expect(question.reload).to have_attributes(title: 'new title', body: 'new body')
       end
 
       it 'redirects to updated question' do
