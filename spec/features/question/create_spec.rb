@@ -4,40 +4,32 @@ feature 'User can create question', "
   I'd like to be able to ask the question
 " do
 
-  given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
+  given(:user) { create(:user) }
 
-  scenario 'Authenticated user asks a question' do
-    visit new_user_session_path
+  describe 'Authenticated user' do
 
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_on 'Log in'
+    background do
+      sign_in(user)
 
-    visit questions_path
-    click_on 'Ask question'
+      visit questions_path
+      click_on 'Ask question'
+    end
 
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text text'
-    click_on 'Ask'
+    scenario 'asks a question' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+      click_on 'Ask'
 
-    expect(page).to have_content 'Your question successfully created.'
-    expect(page).to have_content 'Test question'
-    expect(page).to have_content 'text text text'
-  end
+      expect(page).to have_content 'Your question successfully created.'
+      expect(page).to have_content 'Test question'
+      expect(page).to have_content 'text text text'
+    end
 
-  scenario 'Authenticated user asks a question with errors' do
-    visit new_user_session_path
+    scenario 'asks a question with errors' do
+      click_on 'Ask'
 
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_on 'Log in'
-
-    visit questions_path
-    click_on 'Ask question'
-
-    click_on 'Ask'
-
-    expect(page).to have_content "Title can't be blank"
+      expect(page).to have_content "Title can't be blank"
+    end
   end
 
   scenario 'Unauthenticated user tries to asks a question' do
