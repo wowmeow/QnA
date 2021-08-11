@@ -1,19 +1,23 @@
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+  let(:user) { create(:user) }
 
   describe 'POST #create' do
+    before { login(user) }
+
     let(:post_create) { post :create, params: { question: question_params } }
 
     context 'with valid attributes' do
-      let(:question_params) { attributes_for(:question) }
+      let!(:question_params) { attributes_for(:question) }
 
       it 'saves a new question in the database' do
         expect { post_create }.to change(Question, :count).by(1)
       end
 
-      it 'redirect to show view' do
+      it 'redirects to show view' do
         post_create
-        expect(response).to redirect_to assigns(:question)
+
+        expect(response).to redirect_to assigns(:exposed_question)
       end
     end
 
@@ -32,6 +36,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
+
     let(:patch_update) { patch :update, params: { id: question, question: question_params } }
 
     context 'with valid attributes' do
@@ -67,6 +73,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    before { login(user) }
+
     let!(:question) { create(:question) }
     let(:delete_destroy) { delete :destroy, params: { id: question } }
 
