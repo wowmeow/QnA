@@ -16,13 +16,4 @@ feature 'User can sign up', "
 
     expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
-  #
-  # scenario 'Registered user tries to sign up' do
-  #   fill_in 'Email', with: user.email
-  #   fill_in 'Password', with: user.password
-  #   fill_in 'Password confirmation', with: user.password_confirmation
-  #   click_on 'Sign up'
-  #
-  #   expect(page).to have_content 'The user with this email is already registered.'
-  # end
 end

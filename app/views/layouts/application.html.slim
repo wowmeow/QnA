@@ -9,7 +9,10 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    = render 'shared/nav'
+    ul.menu
+      = render 'devise/menu/sign_out_items'
+      = render 'devise/menu/sign_in_items'
+
     p.notice= notice
     p.alert= alert
     = yield
