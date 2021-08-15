@@ -11,6 +11,7 @@ class AnswersController < ApplicationController
     answer.user = current_user
 
     if answer.save
+      flash[:notice] = 'Your answer successfully created.'
       redirect_to question_path(question)
     else
       render :new
@@ -18,7 +19,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    answer.destroy if current_user.author_of?(answer)
+    if current_user.author_of?(answer)
+      answer.destroy
+      flash[:notice] = 'Your answer successfully deleted.'
+    else
+      flash[:notice] = "You can't delete the answer created by another person"
+    end
+
     redirect_to question_path(question)
   end
 
