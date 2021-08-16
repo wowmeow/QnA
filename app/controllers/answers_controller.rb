@@ -1,9 +1,8 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!, except: %i[show]
   before_action :question, only: %i[new create]
 
   expose :question
-  expose(:answers) { question.answers }
   expose :answer
 
   def create
