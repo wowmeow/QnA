@@ -10,11 +10,11 @@ RSpec.describe User, type: :model do
     let(:user) { create(:user) }
     let(:question) { create(:question, user: author) }
 
-    it 'true if user is the author of question' do
+    context 'when user is the author' do
       expect(author).to be_author_of(question)
     end
 
-    it 'false if user is not the author of question' do
+    context 'when user is not the author' do
       expect(user).not_to be_author_of(question)
     end
   end

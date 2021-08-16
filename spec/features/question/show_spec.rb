@@ -15,10 +15,6 @@ feature 'User can view the question with answers', "
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-
-    answers.each do |answer|
-      expect(page).to have_content answer.body
-    end
   end
 
   scenario 'Unauthenticated user views the question with answers' do
@@ -26,9 +22,5 @@ feature 'User can view the question with answers', "
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-
-    answers.each do |answer|
-      expect(page).to have_content answer.body
-    end
   end
 end
