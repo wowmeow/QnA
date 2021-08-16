@@ -26,7 +26,7 @@ class AnswersController < ApplicationController
       flash[:notice] = "You can't delete the answer created by another person"
     end
 
-    redirect_to question_path(question)
+    redirect_to question_path(answer.question)
   end
 
   private
