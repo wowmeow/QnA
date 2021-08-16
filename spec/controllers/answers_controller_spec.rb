@@ -2,40 +2,42 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
   let(:user) { create(:user) }
-  
+
   describe 'POST #create' do
-    before { login(user) }
+    context 'Authenticated user' do
+      before { login(user) }
 
-    let(:post_create) { post :create, params: { question_id: question, answer: answer_params } }
+      let(:post_create) { post :create, params: { question_id: question, answer: answer_params } }
 
-    context 'with valid attributes' do
-      let!(:answer_params) { attributes_for(:answer) }
+      context 'with valid attributes' do
+        let!(:answer_params) { attributes_for(:answer) }
 
-      it 'saves a new answer in the database' do
-        expect { post_create }.to change(question.answers, :count).by(1)
+        it 'saves a new answer in the database' do
+          expect { post_create }.to change(question.answers, :count).by(1)
+        end
+
+        it 'belongs to the user' do
+          post_create
+          expect(assigns(:exposed_answer).user_id).to eq(user.id)
+        end
+
+        it 'redirect to question show view' do
+          post_create
+          expect(response).to redirect_to question
+        end
       end
 
-      it 'belongs to the user' do
-        post_create
-        expect(assigns(:exposed_answer).user_id).to eq(user.id)
-      end
+      context 'with invalid attributes' do
+        let(:answer_params) { attributes_for(:answer, :invalid) }
 
-      it 'redirect to question show view' do
-        post_create
-        expect(response).to redirect_to question
-      end
-    end
+        it 'does not save the answer' do
+          expect { post_create }.to_not change(question.answers, :count)
+        end
 
-    context 'with invalid attributes' do
-      let(:answer_params) { attributes_for(:answer, :invalid) }
-
-      it 'does not save the answer' do
-        expect { post_create }.to_not change(question.answers, :count)
-      end
-
-      it 're-renders new view' do
-        post_create
-        expect(response).to render_template :new
+        it 're-renders new view' do
+          post_create
+          expect(response).to render_template :new
+        end
       end
     end
   end

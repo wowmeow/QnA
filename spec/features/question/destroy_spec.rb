@@ -12,6 +12,10 @@ feature 'User can delete his question', "
     scenario 'deletes his own question' do
       sign_in(author)
       visit question_path(question)
+
+      expect(page).to have_content question.title
+      expect(page).to have_content question.body
+
       click_on 'Delete'
 
       expect(page).to have_content 'The question successfully deleted.'
@@ -30,6 +34,8 @@ feature 'User can delete his question', "
   scenario 'Unauthenticated user tries to delete a question' do
     visit question_path(question)
 
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
     expect(page).to_not have_link 'Delete'
   end
 end

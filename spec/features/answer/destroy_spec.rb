@@ -12,6 +12,10 @@ feature 'User can delete his answer', "
     scenario 'deletes his own answer' do
       sign_in(author)
       visit question_path(question)
+
+      expect(page).to have_content answer.title
+      expect(page).to have_content answer.body
+
       click_on 'Delete answer'
 
       expect(page).to have_content 'Your answer successfully deleted.'
@@ -30,6 +34,8 @@ feature 'User can delete his answer', "
   scenario 'Unauthenticated user tries to delete an answer' do
     visit question_path(question)
 
+    expect(page).to have_content answer.title
+    expect(page).to have_content answer.body
     expect(page).to_not have_link 'Delete answer'
   end
 end

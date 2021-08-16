@@ -1,8 +1,3 @@
-table
-  thead
-    th title
-    th body
-  tbody
-    = render questions
-
-= link_to 'Ask question', new_question_path
+= render questions
+br
+p= link_to 'Ask question', new_question_path
