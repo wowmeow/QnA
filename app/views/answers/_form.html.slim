@@ -1,0 +1,11 @@
+= render 'shared/errors', resource: @exposed_answer
+
+= form_with model: [question, @exposed_answer], local: true do |f|
+  p
+    = f.label :title
+    = f.text_field :title
+  p
+    = f.label :body
+    = f.text_area :body
+
+  p= f.submit 'Save'
