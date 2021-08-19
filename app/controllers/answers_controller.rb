@@ -6,14 +6,17 @@ class AnswersController < ApplicationController
   expose :answer
 
   def create
-    @exposed_answer = question.answers.new(answer_params)
+    @exposed_answer = question.answers.create(answer_params)
     answer.user = current_user
+    #
+    # @exposed_answer = question.answers.new(answer_params)
+    # answer.user = current_user
 
-    if answer.save
-      flash[:notice] = 'Your answer successfully created.'
-    else
-      flash[:notice] = "Title can't be blank."
-    end
+    flash[:notice] = if answer.save
+                       'Your answer successfully created.'
+                     else
+                       "Title can't be blank."
+                     end
     redirect_to question_path(question)
   end
 

@@ -1,1 +1,7 @@
 $('.answers_errors').html('<%= render 'shared/errors', resource: @exposed_answer %>');
+
+<% if @exposed_answer.persisted? %>
+  $('.answers').append('<%= j render @exposed_answer %>>');
+  $('.answer_title').val('');
+  $('.answer_body').val('');
+<% end %>
