@@ -1,4 +1,5 @@
-= render 'shared/errors', resource: @exposed_answer
+.answer-errors
+  = render 'shared/errors', resource: @exposed_answer
 
 = form_with model: [question, @exposed_answer], local: true do |f|
   p
@@ -8,4 +9,4 @@
     = f.label :body
     = f.text_area :body
 
-  p= f.submit 'Save'
+  p= f.submit 'Create'

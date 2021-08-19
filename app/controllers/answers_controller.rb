@@ -11,10 +11,10 @@ class AnswersController < ApplicationController
 
     if answer.save
       flash[:notice] = 'Your answer successfully created.'
-      redirect_to question_path(question)
     else
-      render :new
+      flash[:notice] = "Title can't be blank."
     end
+    redirect_to question_path(question)
   end
 
   def destroy

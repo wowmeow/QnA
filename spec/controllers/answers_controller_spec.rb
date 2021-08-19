@@ -36,7 +36,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 're-renders new view' do
           post_create
-          expect(response).to render_template :new
+          expect(response).to redirect_to question
         end
       end
     end
