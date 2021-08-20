@@ -2,7 +2,7 @@ feature 'User can create an answer', "
   In order to answer the question
   As an authenticated user
   I'd like to be able to answer the question
-" do
+", js: true do
 
   given(:question) { create(:question) }
 
@@ -14,7 +14,7 @@ feature 'User can create an answer', "
       visit question_path(question)
     end
 
-    scenario 'create answer', js: true do
+    scenario 'create answer' do
       fill_in 'Title', with: 'Answer title'
       fill_in 'Body', with: 'Answer text'
       click_on 'Create'
@@ -27,7 +27,7 @@ feature 'User can create an answer', "
       end
     end
 
-    scenario 'creates answer with errors', js: true do
+    scenario 'creates answer with errors' do
       click_on 'Create'
 
       expect(page).to have_content "Title can't be blank."
