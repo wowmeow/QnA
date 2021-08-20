@@ -1,7 +1,7 @@
-feature 'User can delete his answer', "
-  In order to remove the answer
+feature 'User can delete his answers', "
+  In order to remove the answers
   As an authenticated user
-  I'd like to be able to delete my answer
+  I'd like to be able to delete my answers
 " do
   given(:author) { create(:user) }
   given(:question) { create(:question, user: author) }
@@ -9,33 +9,33 @@ feature 'User can delete his answer', "
   given(:user) { create(:user) }
 
   describe 'Authenticated user' do
-    scenario 'deletes his own answer' do
+    scenario 'deletes his own answers' do
       sign_in(author)
       visit question_path(question)
 
       expect(page).to have_content answer.title
       expect(page).to have_content answer.body
 
-      click_on 'Delete answer'
+      click_on 'Delete answers'
 
-      expect(page).to have_content 'Your answer successfully deleted.'
+      expect(page).to have_content 'Your answers successfully deleted.'
       expect(page).to_not have_content answer.title
       expect(page).to_not have_content answer.body
     end
 
-    scenario 'tries to delete not his own answer' do
+    scenario 'tries to delete not his own answers' do
       sign_in(user)
       visit question_path(question)
 
-      expect(page).to_not have_link 'Delete answer'
+      expect(page).to_not have_link 'Delete answers'
     end
   end
 
-  scenario 'Unauthenticated user tries to delete an answer' do
+  scenario 'Unauthenticated user tries to delete an answers' do
     visit question_path(question)
 
     expect(page).to have_content answer.title
     expect(page).to have_content answer.body
-    expect(page).to_not have_link 'Delete answer'
+    expect(page).to_not have_link 'Delete answers'
   end
 end

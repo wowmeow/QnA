@@ -1,7 +1,20 @@
-$('.answers_errors').html('<%= render 'shared/errors', resource: @exposed_answer %>');
+//const flash = $('.flash');
+//const errors = $('.answer-errors');
+
+<%# if @exposed_answer.persisted? %>
+//  errors.html('<%= render 'shared/errors', resource: answer %>');
+//  flash.html('<%= j render "shared/flash"%>');
+//  flash.html('');
+
+//  $('.answers').append('<%= j render @exposed_answer %>>');
+//  $('.answer_title').val('');
+//  $('.answer_body').val('');
+<%# end %>
+
+
+$('.answer-errors').html('<%= render 'shared/errors', resource: @exposed_answer %>');
 
 <% if @exposed_answer.persisted? %>
-  $('.answers').append('<%= j render @exposed_answer %>>');
-  $('.answer_title').val('');
-  $('.answer_body').val('');
+$('.answers').append('<%= j render @exposed_answer %>');
+$('.new-answer #answer_body').val('');
 <% end %>

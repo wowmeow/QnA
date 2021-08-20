@@ -1,7 +1,7 @@
 .answer-errors
   = render 'shared/errors', resource: @exposed_answer
 
-= form_with model: [question, @exposed_answer], local: true do |f|
+= form_with model: [question, @exposed_answer], local: false do |f|
   p
     = f.label :title
     = f.text_field :title

@@ -1,12 +1,11 @@
-feature 'User can create an answer', "
-  In order to answer the question
+feature 'User can create an answers', "
+  In order to answers the question
   As an authenticated user
-  I'd like to be able to answer the question
-", js: true do
-
+  I'd like to be able to answers the question
+" do
   given(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user creates the answer', js: true do
     given(:user) { create(:user) }
 
     background do
@@ -14,27 +13,27 @@ feature 'User can create an answer', "
       visit question_path(question)
     end
 
-    scenario 'create answer' do
+    scenario 'when data is valid' do
       fill_in 'Title', with: 'Answer title'
       fill_in 'Body', with: 'Answer text'
       click_on 'Create'
 
       expect(current_path).to eq question_path(question)
-      expect(page).to have_content 'Your answer successfully created.'
+
       within '.answers' do
-        expect(page).to have_content 'Answer title'
-        expect(page).to have_content 'Answer text'
+        # expect(page).to have_content 'Your answers successfully created.'
+        expect(page).to have_content(title: 'Answer title', body: 'Answer text')
       end
     end
 
-    scenario 'creates answer with errors' do
+    scenario 'when data is not valid' do
       click_on 'Create'
 
-      expect(page).to have_content "Title can't be blank."
+      # expect(page).to have_content "Title can't be blank."
     end
   end
 
-  scenario 'Unauthenticated user tries to answer the question' do
+  scenario 'Unauthenticated user tries to answers the question' do
     visit question_path(question)
     click_on 'Create'
 
