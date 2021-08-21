@@ -8,6 +8,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   def author_of?(resource)
-    self.id == resource.user_id
+    id == resource.user_id
   end
 end

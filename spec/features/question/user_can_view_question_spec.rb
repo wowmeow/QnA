@@ -1,14 +1,12 @@
-feature 'User can view the question with answers', "
+feature 'User can view the question', "
   In order to get answers to the question
   As an user
-  I'd like to be able to view the question with answers
+  I'd like to be able to view the question
 " do
-
-  given!(:question) { create(:question) }
-  given!(:answers) { create_list(:answer, 3, question: question) }
   given(:user) { create(:user) }
+  given!(:question) { create(:question) }
 
-  scenario 'Authenticated user views the question with answers' do
+  scenario 'Authenticated user views the question' do
     sign_in(user)
 
     visit question_path(question)
@@ -17,7 +15,7 @@ feature 'User can view the question with answers', "
     expect(page).to have_content question.body
   end
 
-  scenario 'Unauthenticated user views the question with answers' do
+  scenario 'Unauthenticated user views the question' do
     visit question_path(question)
 
     expect(page).to have_content question.title

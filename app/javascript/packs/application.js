@@ -6,11 +6,11 @@
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
-
-//= require jquery3
-//= require jquery_ujs
-
 import "channels"
+
+require("jquery")
+
+require("../utilities/answers.js")
 
 Rails.start()
 Turbolinks.start()

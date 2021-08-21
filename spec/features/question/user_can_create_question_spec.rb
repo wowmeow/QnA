@@ -1,13 +1,11 @@
 feature 'User can create question', "
-  In order to get answer from a community
+  In order to get answers from a community
   As on authenticated user
   I'd like to be able to ask the question
 " do
-
   given(:user) { create(:user) }
 
   describe 'Authenticated user' do
-
     background do
       sign_in(user)
 

@@ -1,8 +1,9 @@
-feature 'User can create an answers', "
+feature 'User can create an answer to question', "
   In order to answers the question
   As an authenticated user
-  I'd like to be able to answers the question
+  I'd like to be able to answers the question on question page
 " do
+
   given(:question) { create(:question) }
 
   describe 'Authenticated user creates the answer', js: true do
@@ -14,22 +15,20 @@ feature 'User can create an answers', "
     end
 
     scenario 'when data is valid' do
-      fill_in 'Title', with: 'Answer title'
-      fill_in 'Body', with: 'Answer text'
+      fill_in 'Your answer', with: 'Answer text'
       click_on 'Create'
 
       expect(current_path).to eq question_path(question)
 
       within '.answers' do
-        # expect(page).to have_content 'Your answers successfully created.'
-        expect(page).to have_content(title: 'Answer title', body: 'Answer text')
+        expect(page).to have_content('Answer text')
       end
     end
 
     scenario 'when data is not valid' do
       click_on 'Create'
 
-      # expect(page).to have_content "Title can't be blank."
+      expect(page).to have_content "Body can't be blank"
     end
   end
 

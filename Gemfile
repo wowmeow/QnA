@@ -30,6 +30,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'decent_exposure', '~> 3.0'
 gem 'devise'
 gem 'jquery-rails'
+gem 'responders'
 gem 'rubocop-rspec', require: false
 gem 'slim-rails'
 

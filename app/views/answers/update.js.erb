@@ -1,5 +1,5 @@
-$('.answers_errors').html('<%= render 'shared/errors', resource: @exposed_answer %>');
+$('.edit-answer-errors').html('<%= render 'shared/errors', resource: answer %>')
 
-<% if !@exposed_answer.errors.present? %>
-  $('.answers').html('<%= j render question.answers %>>');
+<% if answer.errors.blank? %>
+$('.answers').html('<%= j render @question.answers %>');
 <% end %>
