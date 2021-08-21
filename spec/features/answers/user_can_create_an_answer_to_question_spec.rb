@@ -3,7 +3,6 @@ feature 'User can create an answer to question', "
   As an authenticated user
   I'd like to be able to answers the question on question page
 " do
-
   given(:question) { create(:question) }
 
   describe 'Authenticated user creates the answer', js: true do

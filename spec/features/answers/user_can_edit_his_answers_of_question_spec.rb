@@ -3,7 +3,6 @@ feature 'User can edit their answers of question', "
   As an author of answers
   I'd like ot be able to edit my answers
 " do
-
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, user: user) }

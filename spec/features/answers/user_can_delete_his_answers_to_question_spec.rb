@@ -3,7 +3,6 @@ feature 'User can delete his answers to the question', "
   As an authenticated user
   I'd like to be able to delete my answers
 ", js: true do
-
   given(:author) { create(:user) }
   given(:question) { create(:question, user: author) }
   given!(:answer) { create(:answer, question: question, user: author) }

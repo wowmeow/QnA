@@ -43,7 +43,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:answer) { create(:answer, question: question, user: author) }
-    let(:patch_update) { patch :update, params: { id: answer, answer: answer_params }, format: :js}
+    let(:patch_update) { patch :update, params: { id: answer, answer: answer_params }, format: :js }
 
     before { sign_in(answer.user) }
 

@@ -3,7 +3,6 @@ feature 'User can view answers on the question page', "
   As an authenticated or unauthenticated user
   I'd like to be able to view answers on the question page
 ", js: true do
-
   given!(:question) { create(:question) }
   given!(:answers) { create_list(:answer, 3, question: question) }
   given(:user) { create(:user) }
