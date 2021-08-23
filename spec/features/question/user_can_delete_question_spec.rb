@@ -2,15 +2,15 @@ feature 'User can delete his question', "
   In order to remove the question
   As an authenticated user
   I'd like to be able to delete the question
-" do
-  given(:author) { create(:user) }
-  given(:question) { create(:question, user: author) }
+", js: true do
+
+  given(:question) { create :question }
 
   describe 'Authenticated user' do
     given(:user) { create(:user) }
 
     scenario 'deletes his own question' do
-      sign_in(author)
+      sign_in(question.user)
       visit question_path(question)
 
       expect(page).to have_content question.title
@@ -18,7 +18,6 @@ feature 'User can delete his question', "
 
       click_on 'Delete'
 
-      expect(page).to have_content 'The question successfully deleted.'
       expect(page).to_not have_content question.title
       expect(page).to_not have_content question.body
     end

@@ -11,6 +11,7 @@ import "channels"
 require("jquery")
 
 require("../utilities/answers.js")
+require("../utilities/questions.js")
 
 Rails.start()
 Turbolinks.start()

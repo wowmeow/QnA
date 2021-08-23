@@ -2,7 +2,8 @@ feature 'User can view the question', "
   In order to get answers to the question
   As an user
   I'd like to be able to view the question
-" do
+", js: true do
+
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 

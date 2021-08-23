@@ -1,3 +1,8 @@
-<% if answer.destroyed? %>
-  $("#answer_<%= answer.id %>").remove()
+<%# if answer.destroyed? %>
+//  $(".answers #answer_<%= answer.id %>").remove()
+<%# end %>
+
+<% if answer.errors.blank? %>
+  $(".answers #answer_<%= answer.id %>").remove()
+  $('.answers').html('<%= j render @question.answers %>');
 <% end %>

@@ -1,10 +1,10 @@
 RSpec.describe AnswersController, type: :controller do
-  let(:author) { create(:user) }
+  let(:user) { create(:user) }
   let(:question) { create :question }
 
   describe 'POST #create' do
     context 'Authenticated user' do
-      before { login(author) }
+      before { login(user) }
 
       let(:post_create) { post :create, params: { question_id: question, answer: answer_params }, format: :js }
 
@@ -17,7 +17,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 'belongs to the user' do
           post_create
-          expect(assigns(:exposed_answer).user_id).to eq(author.id)
+          expect(assigns(:exposed_answer).user_id).to eq(user.id)
         end
 
         it 'renders create template' do
@@ -42,7 +42,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let!(:answer) { create(:answer, question: question, user: author) }
+    let!(:answer) { create(:answer, question: question, user: user) }
     let(:patch_update) { patch :update, params: { id: answer, answer: answer_params }, format: :js }
 
     before { sign_in(answer.user) }
@@ -75,11 +75,11 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) { create(:answer, question: question, user: author) }
-    let(:delete_destroy) { delete :destroy, params: { question_id: question, id: answer }, format: :js }
+    let!(:answer) { create :answer }
+    let(:delete_destroy) { delete :destroy, params: { id: answer }, format: :js }
 
-    context 'when user is the author' do
-      before { login(author) }
+    context 'when the user is the author' do
+      before { login(answer.user) }
 
       it 'deletes the answers' do
         expect { delete_destroy }.to change(Answer, :count).by(-1)
@@ -91,12 +91,22 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'when user is not the author' do
-      let(:user) { create(:user) }
+    context 'when the user is not the author' do
       before { login(user) }
 
       it 'does not delete the question' do
         expect { delete_destroy }.to_not change(Answer, :count)
+      end
+    end
+
+    context 'when the user is not authenticated' do
+      it 'does not delete the answer' do
+        expect { delete_destroy }.not_to change(Answer, :count)
+      end
+
+      it 'responses :unauthorized' do
+        delete_destroy
+        expect(response.body).to have_content 'You need to sign in or sign up before continuing.'
       end
     end
   end
