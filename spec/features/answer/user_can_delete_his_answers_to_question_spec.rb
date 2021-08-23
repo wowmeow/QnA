@@ -1,7 +1,7 @@
-feature 'User can delete his answers to the question', "
-  In order to remove the answers
+feature 'User can delete his answer to the question', "
+  In order to remove the answer
   As an authenticated user
-  I'd like to be able to delete my answers
+  I'd like to be able to delete my answer
 ", js: true do
 
   given(:question) { create(:question) }
@@ -10,7 +10,7 @@ feature 'User can delete his answers to the question', "
   describe 'Authenticated user' do
     given(:user) { create(:user) }
 
-    scenario 'deletes his own answers' do
+    scenario 'deletes his own answer' do
       sign_in(answer.user)
       visit question_path(question)
 
@@ -22,7 +22,7 @@ feature 'User can delete his answers to the question', "
       expect(page).to_not have_content answer.body
     end
 
-    scenario 'tries to delete not his own answers' do
+    scenario 'tries to delete not his own answer' do
       sign_in(user)
       visit question_path(question)
 
@@ -30,7 +30,7 @@ feature 'User can delete his answers to the question', "
     end
   end
 
-  scenario 'Unauthenticated user tries to delete an answers' do
+  scenario 'Unauthenticated user tries to delete an answer' do
     visit question_path(question)
 
     expect(page).to have_content answer.body

@@ -11,7 +11,7 @@ RSpec.describe AnswersController, type: :controller do
       context 'with valid attributes' do
         let!(:answer_params) { attributes_for(:answer) }
 
-        it 'saves a new answers in the database' do
+        it 'saves a new answer in the database' do
           expect { post_create }.to change(question.answers, :count).by(1)
         end
 
@@ -29,7 +29,7 @@ RSpec.describe AnswersController, type: :controller do
       context 'with invalid attributes' do
         let!(:answer_params) { attributes_for(:answer, :invalid) }
 
-        it 'does not save the answers' do
+        it 'does not save the answer' do
           expect { post_create }.to_not change(question.answers, :count)
         end
 
@@ -51,7 +51,7 @@ RSpec.describe AnswersController, type: :controller do
       let(:answer_params) { { body: 'new body' } }
       before { patch_update }
 
-      it 'changes answers attributes' do
+      it 'changes answer attributes' do
         expect(answer.reload).to have_attributes(body: 'new body')
       end
 
@@ -81,7 +81,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'when the user is the author' do
       before { login(answer.user) }
 
-      it 'deletes the answers' do
+      it 'deletes the answer' do
         expect { delete_destroy }.to change(Answer, :count).by(-1)
       end
 
@@ -106,6 +106,40 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'responses :unauthorized' do
         delete_destroy
+        expect(response.body).to have_content 'You need to sign in or sign up before continuing.'
+      end
+    end
+  end
+
+  describe 'PATCH #best' do
+    let!(:answer) { create :answer }
+    let(:patch_best) { patch :best, params: answer_params, format: :js }
+
+    context 'authenticated user' do
+      context 'who is the author of the question' do
+        let(:answer_params) { { id: answer } }
+
+        before { login(answer.question.user) }
+        before { patch_best }
+
+        it 'sets the answer to be the best' do
+          answer.reload
+
+          expect(answer).to be_best
+        end
+
+        it 'renders the `best` view' do
+          expect(response).to render_template :best
+        end
+      end
+    end
+
+    context 'when the user is not unauthenticated' do
+      let(:answer_params) { { id: answer, answer: { best: true } } }
+
+      it 'does not set the answer to be the best' do
+        patch_best
+
         expect(response.body).to have_content 'You need to sign in or sign up before continuing.'
       end
     end

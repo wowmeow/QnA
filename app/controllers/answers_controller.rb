@@ -23,9 +23,14 @@ class AnswersController < ApplicationController
     end
   end
 
+  def best
+    answer.set_true_in_column_best! if current_user.author_of?(answer.question)
+    @question = answer.question
+  end
+
   private
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, :best)
   end
 end

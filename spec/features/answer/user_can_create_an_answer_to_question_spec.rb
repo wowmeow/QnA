@@ -1,7 +1,7 @@
 feature 'User can create an answer to question', "
-  In order to answers the question
+  In order to answer the question
   As an authenticated user
-  I'd like to be able to answers the question on question page
+  I'd like to be able to answer the question on question page
 " do
   given(:question) { create(:question) }
 
@@ -31,7 +31,7 @@ feature 'User can create an answer to question', "
     end
   end
 
-  scenario 'Unauthenticated user tries to answers the question' do
+  scenario 'Unauthenticated user tries to answer the question' do
     visit question_path(question)
     click_on 'Create'
 

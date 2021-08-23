@@ -1,5 +1,5 @@
 feature 'User can view the question', "
-  In order to get answers to the question
+  In order to get answer to the question
   As an user
   I'd like to be able to view the question
 ", js: true do

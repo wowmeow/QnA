@@ -1,7 +1,7 @@
-feature 'User can edit their answers of question', "
+feature 'User can edit their answer of question', "
   In order to correct mistakes
-  As an author of answers
-  I'd like ot be able to edit my answers
+  As an author of answer
+  I'd like ot be able to edit my answer
 " do
 
   given!(:user) { create(:user) }
@@ -11,7 +11,7 @@ feature 'User can edit their answers of question', "
   describe 'Authenticated user', js: true do
     given!(:other_user) { create(:user) }
 
-    scenario 'edits his answers' do
+    scenario 'edits his answer' do
       sign_in user
       visit question_path(question)
 
@@ -27,7 +27,7 @@ feature 'User can edit their answers of question', "
       end
     end
 
-    scenario 'edits his answers with errors' do
+    scenario 'edits his answer with errors' do
       sign_in user
       visit question_path(question)
 
@@ -55,7 +55,7 @@ feature 'User can edit their answers of question', "
     end
   end
 
-  scenario 'Unauthenticated can not edit answers' do
+  scenario 'Unauthenticated can not edit answer' do
     visit question_path(question)
 
     expect(page).to_not have_link 'Edit'
