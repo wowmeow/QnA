@@ -8,13 +8,13 @@ RSpec.describe Answer, type: :model do
 
   let(:question) { create(:question) }
 
-  describe '#set_true_in_column_best!' do
+  describe '#make_best!' do
     let!(:answer_1) { create(:answer, question: question) }
     let!(:answer_2) { create(:answer, question: question) }
 
     it 'sets only one answer to be the best' do
-      answer_1.set_true_in_column_best!
-      answer_2.set_true_in_column_best!
+      answer_1.make_best!
+      answer_2.make_best!
 
       expect(question.answers.where(best: true).count).to eq 1
       expect(answer_2).to be_best

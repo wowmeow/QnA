@@ -6,9 +6,9 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
-  def set_true_in_column_best!
+  def make_best!
     transaction do
-      Answer.where(question_id: question_id).update_all(best: false)
+      question.answers.update_all(best: false)
 
       update!(best: true)
     end
