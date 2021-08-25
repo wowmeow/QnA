@@ -1,11 +1,8 @@
-= render 'shared/errors', resource: @exposed_answer
+.answer-errors
+  = render 'shared/errors', resource: @exposed_answer
 
-= form_with model: [question, @exposed_answer], local: true do |f|
+= form_with model: [question, @exposed_answer], class: 'new-answer', local: false do |f|
   p
-    = f.label :title
-    = f.text_field :title
-  p
-    = f.label :body
+    = f.label :body, 'Your answer'
     = f.text_area :body
-
-  p= f.submit 'Save'
+  p= f.submit 'Create'

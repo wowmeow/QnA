@@ -1,6 +1,6 @@
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question) }
 
   describe 'POST #create' do
     before { login(user) }
@@ -36,21 +36,20 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { login(user) }
+    let(:patch_update) { patch :update, params: { id: question, question: question_params }, format: :js }
 
-    let(:patch_update) { patch :update, params: { id: question, question: question_params } }
+    before { sign_in(question.user) }
 
     context 'with valid attributes' do
       let(:question_params) { { title: 'new title', body: 'new body' } }
-
       before { patch_update }
 
       it 'changes question attributes' do
         expect(question.reload).to have_attributes(title: 'new title', body: 'new body')
       end
 
-      it 'redirects to updated question' do
-        expect(response).to redirect_to question
+      it 'renders the update view' do
+        expect(response).to render_template :update
       end
     end
 
@@ -66,20 +65,19 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq 'Question text'
       end
 
-      it 're-render edit view' do
-        expect(response).to render_template :edit
+      it 'renders the update view' do
+        expect(response).to render_template :update
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    let(:author) { create(:user) }
-    let!(:question) { create(:question, user: author) }
-    let(:delete_destroy) { delete :destroy, params: { id: question } }
-
-    before { login(author) }
+    let!(:question) { create(:question) }
+    let(:delete_destroy) { delete :destroy, params: { id: question }, format: :js }
 
     context 'author' do
+      before { login(question.user) }
+
       it 'deletes the question' do
         expect { delete_destroy }.to change(Question, :count).by(-1)
       end
@@ -91,7 +89,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'not author' do
-      let(:user) { create(:user) }
       before { login(user) }
 
       it 'does not delete the question' do
@@ -104,5 +101,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-
 end

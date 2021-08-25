@@ -6,16 +6,18 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers) }
 
   describe '#author_of?' do
-    let(:author) { create(:user) }
-    let(:user) { create(:user) }
-    let(:question) { create(:question, user: author) }
+    subject(:user) { create(:user) }
 
-    it 'when user is the author' do
-      expect(author).to be_author_of(question)
+    context 'when user is the author' do
+      let(:question) { create(:question, user: user) }
+
+      it { is_expected.to be_author_of(question) }
     end
 
-    it 'when user is not the author' do
-      expect(user).not_to be_author_of(question)
+    context 'when user is not the author' do
+      let(:question) { create(:question) }
+
+      it { is_expected.to_not be_author_of(question) }
     end
   end
 end

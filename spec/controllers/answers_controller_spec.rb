@@ -1,13 +1,12 @@
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer) }
   let(:user) { create(:user) }
+  let(:question) { create :question }
 
   describe 'POST #create' do
     context 'Authenticated user' do
       before { login(user) }
 
-      let(:post_create) { post :create, params: { question_id: question, answer: answer_params } }
+      let(:post_create) { post :create, params: { question_id: question, answer: answer_params }, format: :js }
 
       context 'with valid attributes' do
         let!(:answer_params) { attributes_for(:answer) }
@@ -21,57 +20,127 @@ RSpec.describe AnswersController, type: :controller do
           expect(assigns(:exposed_answer).user_id).to eq(user.id)
         end
 
-        it 'redirect to question show view' do
+        it 'renders create template' do
           post_create
-          expect(response).to redirect_to question
+          expect(response).to render_template :create
         end
       end
 
       context 'with invalid attributes' do
-        let(:answer_params) { attributes_for(:answer, :invalid) }
+        let!(:answer_params) { attributes_for(:answer, :invalid) }
 
         it 'does not save the answer' do
           expect { post_create }.to_not change(question.answers, :count)
         end
 
-        it 're-renders new view' do
+        it 'renders create template' do
           post_create
-          expect(response).to render_template :new
+          expect(response).to render_template :create
         end
       end
     end
   end
 
+  describe 'PATCH #update' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+    let(:patch_update) { patch :update, params: { id: answer, answer: answer_params }, format: :js }
+
+    before { sign_in(answer.user) }
+
+    context 'with valid attributes' do
+      let(:answer_params) { { body: 'new body' } }
+      before { patch_update }
+
+      it 'changes answer attributes' do
+        expect(answer.reload).to have_attributes(body: 'new body')
+      end
+
+      it 'renders update view' do
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      let(:answer_params) { attributes_for(:answer, :invalid) }
+
+      it 'does not change answer attributes' do
+        expect { patch_update }.not_to change { answer.body }
+      end
+
+      it 'renders update view' do
+        patch_update
+        expect(response).to render_template :update
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
-    let(:author) { create(:user) }
-    let!(:question) { create(:question, user: author) }
-    let!(:answer) { create(:answer, question: question, user: author) }
-    let(:delete_destroy) { delete :destroy, params: { question_id: question, id: answer } }
+    let!(:answer) { create :answer }
+    let(:delete_destroy) { delete :destroy, params: { id: answer }, format: :js }
 
-    before { login(author) }
+    context 'when the user is the author' do
+      before { login(answer.user) }
 
-    context 'author' do
       it 'deletes the answer' do
         expect { delete_destroy }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to index' do
+      it 'render destroy view' do
         delete_destroy
-        expect(response).to redirect_to question
+        expect(response).to render_template :destroy
       end
     end
 
-    context 'not author' do
-      let(:user) { create(:user) }
+    context 'when the user is not the author' do
       before { login(user) }
 
       it 'does not delete the question' do
         expect { delete_destroy }.to_not change(Answer, :count)
       end
+    end
 
-      it 'redirects to question show' do
+    context 'when the user is not authenticated' do
+      it 'does not delete the answer' do
+        expect { delete_destroy }.not_to change(Answer, :count)
+      end
+
+      it 'responses :unauthorized' do
         delete_destroy
-        expect(response).to redirect_to question
+        expect(response.body).to have_content 'You need to sign in or sign up before continuing.'
+      end
+    end
+  end
+
+  describe 'PATCH #best' do
+    let!(:answer) { create :answer }
+    let(:patch_best) { patch :best, params: answer_params, format: :js }
+
+    context 'authenticated user' do
+      context 'who is the author of the question' do
+        let(:answer_params) { { id: answer } }
+
+        before { login(answer.question.user) }
+        before { patch_best }
+
+        it 'sets the answer to be the best' do
+          answer.reload
+
+          expect(answer).to be_best
+        end
+
+        it 'renders the `best` view' do
+          expect(response).to render_template :best
+        end
+      end
+    end
+
+    context 'when the user is not unauthenticated' do
+      let(:answer_params) { { id: answer, answer: { best: true } } }
+
+      it 'does not set the answer to be the best' do
+        patch_best
+
+        expect(response.body).to have_content 'You need to sign in or sign up before continuing.'
       end
     end
   end
