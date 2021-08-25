@@ -1,23 +1,23 @@
 - if answer.persisted?
   div id = "answer_#{answer.id}"
-  - if answer.best?
-    h4[class="best"]= "The best answer:"
-    p[class="best"]= answer.body
-  - else
-    p= answer.body
+    - if answer.best?
+      h4[class="best"]= "The best answer:"
+      p[class="best"]= answer.body
+    - else
+      p= answer.body
 
-  p
-    - if current_user&.author_of?(answer.question) && !answer.best?
-      = link_to "Best", best_answer_path(answer), method: :patch, remote: true
+    p
+      - if current_user&.author_of?(answer.question) && !answer.best?
+        = link_to "Best", best_answer_path(answer), method: :patch, remote: true
 
-  - if current_user&.author_of?(answer)
-    = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
-    |  |
-    = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    - if current_user&.author_of?(answer)
+      = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+      |  |
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-      .edit-answer-errors
-      p
-        = f.label :body, 'Your answer'
-        = f.text_area :body, id: "answer_body-#{answer.id}"
-      p= f.submit 'Save'
+      = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+        .edit-answer-errors
+        p
+          = f.label :body, 'Your answer'
+          = f.text_area :body, id: "answer_body-#{answer.id}"
+        p= f.submit 'Save'

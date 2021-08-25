@@ -8,7 +8,7 @@ class Answer < ApplicationRecord
 
   def set_true_in_column_best!
     transaction do
-      self.class.where(question_id: question_id).update_all(best: false)
+      Answer.where(question_id: question_id).update_all(best: false)
 
       update!(best: true)
     end
