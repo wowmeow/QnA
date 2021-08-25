@@ -1,0 +1,4 @@
+<% if attachment.destroyed? %>
+  $("#attachment_<%= attachment.id %>").remove()
+  $('.attachments').html('<%= j render resource %>');
+<% end %>

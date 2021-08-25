@@ -17,6 +17,7 @@ feature 'User can edit his question', "
 
       find("#question_body-#{question.id}").fill_in(with: 'Edited question')
       click_on 'Save'
+      visit question_path(question)
 
       expect(page).to_not have_content question.body
       expect(page).to have_content 'Edited question'
