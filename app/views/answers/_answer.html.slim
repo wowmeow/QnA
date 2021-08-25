@@ -24,4 +24,9 @@
         p
           = f.label :body, 'Your answer'
           = f.text_area :body, id: "answer_body-#{answer.id}"
+
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
+
         p= f.submit 'Save'
