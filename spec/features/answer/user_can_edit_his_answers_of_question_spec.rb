@@ -44,7 +44,7 @@ feature 'User can edit their answer of question', "
       end
     end
 
-    scenario 'when editing attaches files to the response' do
+    scenario 'when editing attaches files to the answer' do
       sign_in user
       visit question_path(question)
 
