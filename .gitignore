@@ -37,3 +37,6 @@ yarn-debug.log*
 .yarn-integrity
 
 .idea
+
+# Dotenv file with confidential information
+.env
