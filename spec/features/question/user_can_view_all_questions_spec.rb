@@ -12,13 +12,11 @@ feature 'User can view the list of questions', "
     visit questions_url
 
     expect(page).to have_text('Question title').exactly(3).times
-    expect(page).to have_text('Question text').exactly(3).times
   end
 
   scenario 'Unauthenticated user views the list of questions' do
     visit questions_url
 
     expect(page).to have_text('Question title').exactly(3).times
-    expect(page).to have_text('Question text').exactly(3).times
   end
 end

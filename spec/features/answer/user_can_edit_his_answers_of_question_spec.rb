@@ -44,6 +44,23 @@ feature 'User can edit their answer of question', "
       end
     end
 
+    scenario 'when editing attaches files to the answer' do
+      sign_in user
+      visit question_path(question)
+
+      click_on 'Edit'
+
+      expect(current_path).to eq question_path(question)
+
+      within '.answers' do
+        attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
+        click_on 'Save'
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
     scenario "tries to edit other user's question" do
       sign_in(other_user)
       visit question_path(question)

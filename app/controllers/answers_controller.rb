@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
   before_action :question, only: :create
 
   expose :question, -> { Question.find(params[:question_id]) if params[:question_id] }
-  expose :answer
+  expose :answer, find: -> { Answer.with_attached_files.find(params[:id]) }
 
   def create
     @exposed_answer = question.answers.create(answer_params.merge(user: current_user))
@@ -31,6 +31,6 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, :best)
+    params.require(:answer).permit(:body, :best, files: [])
   end
 end

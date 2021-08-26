@@ -6,6 +6,10 @@ RSpec.describe Answer, type: :model do
 
   it { is_expected.to have_db_column(:best).of_type(:boolean).with_options(null: false, default: false) }
 
+  it 'have many attached file' do
+    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
   let(:question) { create(:question) }
 
   describe '#make_best!' do

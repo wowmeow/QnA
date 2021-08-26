@@ -11,11 +11,11 @@ feature 'User can create question', "
 
       visit questions_path
       click_on 'Ask question'
+
+      expect(page).to have_content 'Creating a question'
     end
 
     scenario 'asks a question' do
-      expect(page).to have_content 'Creating a question'
-
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
       click_on 'Ask'
@@ -26,11 +26,20 @@ feature 'User can create question', "
     end
 
     scenario 'asks a question with errors' do
-      expect(page).to have_content 'Creating a question'
-
       click_on 'Ask'
 
       expect(page).to have_content "Title can't be blank"
+    end
+
+    scenario 'asks a question with attached file' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+
+      attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
+      click_on 'Ask'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 
