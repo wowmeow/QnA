@@ -8,6 +8,12 @@ p= question.body
 h3= 'Create new answer'
 = render 'answers/form', locals: { answer: @exposed_answer }
 
+.links
+  p= 'Links'
+  ul
+    - question.links.each do |link|
+      li= link_to link.name, link.url
+
 .answers
   h3= 'Answers'
   = render question.answers
