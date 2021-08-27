@@ -7,8 +7,10 @@
       p= answer.body
 
     .links
-      - unless answer.links.empty?
-        = render 'links/links', links: answer.links
+      - unless question.links.empty?
+        p Links:
+        ul
+          = render question.links
 
     = render 'shared/attachments', resource: answer
 

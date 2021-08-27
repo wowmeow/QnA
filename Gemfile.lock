@@ -39,6 +39,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_storage_validations (0.9.5)
+      rails (>= 5.2.0)
     activejob (6.1.4)
       activesupport (= 6.1.4)
       globalid (>= 0.3.6)
@@ -273,6 +275,9 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
+    valid_url (0.0.4)
+      addressable
+      rails
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.1.0)
@@ -300,6 +305,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_storage_validations
   aws-sdk-s3
   bootsnap (>= 1.4.4)
   byebug
@@ -327,6 +333,7 @@ DEPENDENCIES
   spring
   turbolinks (~> 5)
   tzinfo-data
+  valid_url
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
