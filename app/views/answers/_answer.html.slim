@@ -6,6 +6,10 @@
     - else
       p= answer.body
 
+    .links
+      - unless answer.links.empty?
+        = render 'links/links', links: answer.links
+
     = render 'shared/attachments', resource: answer
 
     p

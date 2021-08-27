@@ -10,15 +10,9 @@
   p
     = f.label :files
     br= f.file_field :files, multiple: true, direct_upload: true
-  p
-    = 'Links:'
-    p
-      = f.fields_for :links, locale: false do |l|
-        p
-          = l.label :name, 'Link name'
-          = l.text_field :name
-        p
-          = l.label :url, 'URL'
-          = l.text_field :url
+
+  .links
+    p Links:
+    = render 'links/form', f: f
 
   p= f.submit 'Ask'

@@ -4,14 +4,13 @@ class QuestionsController < ApplicationController
   expose(:questions) { Question.all }
   expose :question, find: -> { Question.with_attached_files.find(params[:id]) }
 
-  # expose :links, build: ->(question){ question.links.build }
-
   def new
-    question.links.new
+    question.links.build
   end
 
   def show
     @exposed_answer = Answer.new
+    @exposed_answer.links.build
   end
 
   def create
