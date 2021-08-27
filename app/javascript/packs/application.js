@@ -10,6 +10,7 @@ import "channels"
 
 require("jquery")
 
+require("@nathanvda/cocoon")
 require("../utilities/answers.js")
 require("../utilities/questions.js")
 

@@ -3,7 +3,9 @@ p= question.body
 
 .links
   - unless question.links.empty?
-    = render 'links/links', links: question.links
+    p Links:
+    ul
+      = render question.links
 
 = render 'shared/attachments', resource: question
 

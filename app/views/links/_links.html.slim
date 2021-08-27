@@ -1,5 +1,4 @@
-p= 'Links:'
-ul
-  - links.each do |link|
-    li= link_to link.name, link.url
-
+- unless question.links.empty?
+  p Links:
+  ul
+    = render question.links
