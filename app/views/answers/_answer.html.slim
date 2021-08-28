@@ -3,6 +3,8 @@
     - if answer.best?
       h4[class="best"]= "The best answer:"
       p[class="best"]= answer.body
+      - unless answer.question.reward.nil?
+        = "Reward: #{@question.reward.title}"
     - else
       p= answer.body
 

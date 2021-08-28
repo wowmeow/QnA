@@ -37,6 +37,18 @@ feature 'The user can select the best answer for his question', "
         expect(page).to have_content 'The best answer:'
       end
     end
+
+    scenario 'when mark the answer as best with reward' do
+      create(:reward, question: question)
+
+      within "#answer_#{answer.id}" do
+        click_on('Best')
+
+        expect(page).to have_content 'The best answer:'
+        expect(page).to have_content 'Reward:'
+        expect(page).to_not have_link 'Best'
+      end
+    end
   end
 
   scenario 'The authenticated user tries to set the best answer of for the question of the other user' do
