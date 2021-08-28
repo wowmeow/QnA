@@ -2,13 +2,14 @@ feature 'User can edit their answer of question', "
   In order to correct mistakes
   As an author of answer
   I'd like ot be able to edit my answer
-" do
+", js: true do
 
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, user: user) }
+  given(:link) { create(:link, linkable: question) }
+  given!(:answer) { create(:answer, question: question, user: user, links: [link]) }
 
-  describe 'Authenticated user', js: true do
+  describe 'Authenticated user' do
     given!(:other_user) { create(:user) }
 
     scenario 'edits his answer' do
@@ -58,6 +59,22 @@ feature 'User can edit their answer of question', "
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'when delete link from the answer' do
+      sign_in user
+      visit questions_path
+
+      click_on 'Edit'
+
+      expect(page).to have_link link.name, href: link.url
+
+      within '.answers' do
+        click_on 'Delete link'
+        click_on 'Save'
+
+        expect(page).to_not have_link link.name, href: link.url
       end
     end
 

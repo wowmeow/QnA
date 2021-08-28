@@ -5,7 +5,6 @@ feature 'User can add links to question', "
 " do
 
   given(:user) { create :user }
-  # given(:gist_url) { create 'https://en.wikipedia.org/wiki/%22Hello,_World!%22_program' }
 
   scenario 'User adds link when asks question', js: true do
     sign_in(user)

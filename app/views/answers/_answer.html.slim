@@ -7,10 +7,10 @@
       p= answer.body
 
     .links
-      - unless question.links.empty?
+      - unless answer.links.empty?
         p Links:
         ul
-          = render question.links
+          = render answer.links
 
     = render 'shared/attachments', resource: answer
 
@@ -32,5 +32,9 @@
         p
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
+
+        .links-form
+          p Links:
+          = render 'links/form', f: f
 
         p= f.submit 'Save'

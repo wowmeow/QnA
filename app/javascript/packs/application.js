@@ -8,14 +8,13 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-require("jquery")
-require("@nathanvda/cocoon")
+// require("jquery")
+// require("@nathanvda/cocoon")
+require("cocoon-js-vanilla")
+
 
 require("../utilities/answers.js")
 require("../utilities/questions.js")
-
-const GistClient = require("gist-client");
-window.gistClient = new GistClient()
 
 Rails.start()
 Turbolinks.start()
