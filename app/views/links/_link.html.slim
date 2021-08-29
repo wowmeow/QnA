@@ -1,0 +1,6 @@
+-if link.linkable.links
+  div id="link-#{link.id}"
+  li= link_to link.name, link.url
+
+  - if link.is_gist?
+    script src="#{link.url}.js"

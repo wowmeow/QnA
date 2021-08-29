@@ -4,8 +4,14 @@ class QuestionsController < ApplicationController
   expose(:questions) { Question.all }
   expose :question, find: -> { Question.with_attached_files.find(params[:id]) }
 
+  def new
+    question.links.build
+    question.reward = Reward.new
+  end
+
   def show
     @exposed_answer = Answer.new
+    @exposed_answer.links.build
   end
 
   def create
@@ -32,6 +38,8 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                     links_attributes: %i[id name url _destroy],
+                                     reward_attributes: [:id, :title, :image, :_destroy])
   end
 end

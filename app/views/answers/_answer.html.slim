@@ -3,8 +3,16 @@
     - if answer.best?
       h4[class="best"]= "The best answer:"
       p[class="best"]= answer.body
+      - unless answer.question.reward.nil?
+        = "Reward: #{@question.reward.title}"
     - else
       p= answer.body
+
+    .links
+      - unless answer.links.empty?
+        p Links:
+        ul
+          = render answer.links
 
     = render 'shared/attachments', resource: answer
 
@@ -26,5 +34,9 @@
         p
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
+
+        .links-form
+          p Links:
+          = render 'links/form', f: f
 
         p= f.submit 'Save'

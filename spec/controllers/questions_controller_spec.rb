@@ -2,6 +2,18 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
 
+  describe 'GET #show' do
+    before { get :show, params: { id: question }, format: :js }
+
+    it 'assigns new answer for question' do
+      expect(assigns(:exposed_answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns new link for answer' do
+      expect(assigns(:exposed_answer).links.first).to be_a_new(Link)
+    end
+  end
+
   describe 'POST #create' do
     before { login(user) }
 

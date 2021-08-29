@@ -8,7 +8,10 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-require("jquery")
+// require("jquery")
+// require("@nathanvda/cocoon")
+require("cocoon-js-vanilla")
+
 
 require("../utilities/answers.js")
 require("../utilities/questions.js")

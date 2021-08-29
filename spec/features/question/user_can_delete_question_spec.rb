@@ -16,7 +16,7 @@ feature 'User can delete his question', "
       expect(page).to have_content question.title
       expect(page).to have_content question.body
 
-      click_on 'Delete'
+      click_on 'Delete question'
 
       expect(page).to_not have_content question.title
       expect(page).to_not have_content question.body
@@ -26,7 +26,7 @@ feature 'User can delete his question', "
       sign_in(user)
       visit question_path(question)
 
-      expect(page).to_not have_link 'Delete'
+      expect(page).to_not have_link 'Delete question'
     end
   end
 
@@ -35,6 +35,6 @@ feature 'User can delete his question', "
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_link 'Delete question'
   end
 end

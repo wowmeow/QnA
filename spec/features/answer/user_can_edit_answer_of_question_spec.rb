@@ -2,13 +2,14 @@ feature 'User can edit their answer of question', "
   In order to correct mistakes
   As an author of answer
   I'd like ot be able to edit my answer
-" do
+", js: true do
 
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, user: user) }
+  given(:link) { create(:link, linkable: question) }
+  given!(:answer) { create(:answer, question: question, user: user, links: [link]) }
 
-  describe 'Authenticated user', js: true do
+  describe 'Authenticated user' do
     given!(:other_user) { create(:user) }
 
     scenario 'edits his answer' do
