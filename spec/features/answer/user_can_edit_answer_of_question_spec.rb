@@ -62,22 +62,6 @@ feature 'User can edit their answer of question', "
       end
     end
 
-    scenario 'when delete link from the answer' do
-      sign_in user
-      visit questions_path
-
-      click_on 'Edit'
-
-      expect(page).to have_link link.name, href: link.url
-
-      within '.answers' do
-        click_on 'Delete link'
-        click_on 'Save'
-
-        expect(page).to_not have_link link.name, href: link.url
-      end
-    end
-
     scenario "tries to edit other user's question" do
       sign_in(other_user)
       visit question_path(question)

@@ -11,12 +11,6 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'deletes the attachment' do
         expect { delete_destroy }.to change(answer.files, :count).by(-1)
       end
-
-      it 'renders the delete view' do
-        delete_destroy
-
-        expect(response).to render_template :delete
-      end
     end
 
     context 'when the user is not the author of the answer' do

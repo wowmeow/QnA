@@ -13,26 +13,6 @@ feature 'User can add links to answer', "
     visit question_path(answer.question)
   end
 
-  scenario 'adds a link when create an answer' do
-    fill_in 'Your answer', with: 'My answer'
-
-    fill_in 'Link name', with: 'Google'
-    fill_in 'URL', with: 'https://www.google.com'
-
-    click_on 'Add link'
-
-    within all('.nested-fields').last do
-      fill_in 'Link name', with: 'Yandex'
-      fill_in 'URL', with: 'https://www.yandex.ru'
-    end
-
-    click_on 'Create'
-
-    expect(page).to have_link 'Google', href: 'https://www.google.com'
-    expect(page).to have_link 'Yandex', href: 'https://www.yandex.ru'
-
-  end
-
   scenario 'adds a link when edit an answer' do
     click_on 'Edit'
 

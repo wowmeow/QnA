@@ -38,15 +38,6 @@ feature 'User can edit his question', "
       expect(page).to have_link 'spec_helper.rb'
     end
 
-    scenario 'when delete the link from the question' do
-      expect(page).to have_link link.name, href: link.url
-
-      click_on 'Delete link'
-      click_on 'Save'
-
-      expect(page).to_not have_link link.name, href: link.url
-    end
-
     scenario 'edits his question with errors' do
       find("#question_body-#{question.id}").fill_in(with: '')
       click_on 'Save'
