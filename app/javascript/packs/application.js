@@ -15,6 +15,7 @@ require("cocoon-js-vanilla")
 
 require("../utilities/answers.js")
 require("../utilities/questions.js")
+require("../utilities/rating.js")
 
 Rails.start()
 Turbolinks.start()

@@ -1,4 +1,8 @@
 RSpec.describe Answer, type: :model do
+  let(:question) { create(:question) }
+
+  it_behaves_like 'votable'
+
   it { should belong_to :question }
   it { should belong_to(:user) }
 
@@ -14,7 +18,6 @@ RSpec.describe Answer, type: :model do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
-  let(:question) { create(:question) }
 
   describe '#make_best!' do
     let!(:answer_1) { create(:answer, question: question) }
