@@ -1,6 +1,4 @@
 - if user_signed_in?
-  li
-    = link_to('Edit registration', edit_user_registration_path)
+  = link_to('Edit registration', edit_user_registration_path)
 - elsif !current_page?(new_user_session_path) && !current_page?(new_user_registration_path)
-  li
-    = link_to('Sign up', new_user_registration_path)
+  = link_to('Sign up', new_user_registration_path)
