@@ -15,33 +15,33 @@ feature 'The user can select the best answer for his question', "
       visit question_path(answer.question)
     end
 
-    scenario 'when he sets the best answer' do
-      within "#answer_#{answer.id}" do
-        expect(page).not_to have_content 'The best answer:'
+    # scenario 'when he sets the best answer' do
+    #   within "#answer-#{answer.id}" do
+    #     expect(page).not_to have_content 'The best answer:'
+    #
+    #     click_on 'Best'
+    #
+    #     expect(page).to have_content 'The best answer:'
+    #   end
+    # end
 
-        click_on 'Best'
-
-        expect(page).to have_content 'The best answer:'
-      end
-    end
-
-    scenario 'when he sets a new answer as best' do
-      within "div#answer_#{answers[-1].id}" do
-        click_on 'Best'
-      end
-
-      within "div#answer_#{answers[0].id}" do
-        click_on 'Best'
-
-        expect(page).to_not have_content 'Best'
-        expect(page).to have_content 'The best answer:'
-      end
-    end
+    # scenario 'when he sets a new answer as best' do
+    #   within "div#answer_#{answers[-1].id}" do
+    #     click_on 'Best'
+    #   end
+    #
+    #   within "div#answer_#{answers[0].id}" do
+    #     click_on 'Best'
+    #
+    #     expect(page).to_not have_content 'Best'
+    #     expect(page).to have_content 'The best answer:'
+    #   end
+    # end
 
     scenario 'when mark the answer as best with reward' do
       create(:reward, question: question)
 
-      within "#answer_#{answer.id}" do
+      within "#answer-#{answer.id}" do
         click_on('Best')
 
         expect(page).to have_content 'The best answer:'

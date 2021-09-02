@@ -78,7 +78,7 @@ feature 'User can vote for the answer', "
   end
 
   scenario 'Unauthenticated user try to vote' do
-    visit question_path(question)
+    visit question_path(answer.question)
 
     within ".answers" do
       expect(page).to_not have_link 'Like'

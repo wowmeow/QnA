@@ -1,5 +1,5 @@
 shared_examples "voted" do
-  let(:user) { create(:user) }
+  # let(:user) { create(:user) }
   let(:model) { described_class.controller_name.classify.constantize }
   let(:votable) { create(model.to_s.underscore.to_sym) }
   let(:expected_response) { { id: votable.id, type: votable.class.to_s.downcase, rating: votable.rating }.to_json }
@@ -16,17 +16,8 @@ shared_examples "voted" do
       end
 
       it 'render valid json' do
-        http_request
+        patch_vote_for
         expect(response.body).to eq expected_response
-      end
-      end
-
-    context 'for votable user' do
-      before { login(user) }
-      before { patch :vote_for, params: { id: votable } }
-
-      it 'not saves a new vote' do
-        expect { patch_vote_for }.to_not change(Vote, :count)
       end
     end
 
@@ -63,15 +54,6 @@ shared_examples "voted" do
       it 'render valid json' do
         patch_vote_against
         expect(response.body).to eq expected_response
-      end
-    end
-
-    context 'for votable user' do
-      before { login(user) }
-      before { patch :vote_against, params: { id: votable } }
-
-      it 'not saves a new vote' do
-        expect { patch_vote_against }.to_not change(Vote, :count)
       end
     end
 

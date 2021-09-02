@@ -2,7 +2,7 @@ module Voted
   extend ActiveSupport::Concern
 
   included do
-    before_action :find_votable, only: [:vote_for, :vote_against, :undo_vote, :user_not_author, :undo]
+    before_action :find_votable, only: [:vote_for, :vote_against, :undo_vote, :user_not_author]
     before_action :render_errors, only: [:vote_for, :vote_against, :undo_vote]
 
     # after_action :render_json, only: [:vote_for, :vote_against, :undo_vote]
@@ -26,7 +26,7 @@ module Voted
   private
 
   def render_json
-    render json: { id: @votable.id, type: @votable.class.to_s.downcase, rating: @votable.rating }
+    render json: { id: @votable.id, type: @votable.class.name.underscore, rating: @votable.rating }
   end
 
   def render_errors
