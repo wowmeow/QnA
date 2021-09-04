@@ -1,19 +1,9 @@
-h1= question.title
-p= question.body
+.question
+  = render question, resource: question
 
-.links
-  - unless question.links.empty?
-    p Links:
-    ul
-      = render question.links
-
-= render 'shared/attachments', resource: question
-
-- if current_user&.author_of?(question)
-  = link_to 'Delete question', question_path(question), method: :delete
-
-h3= 'Create new answer'
-= render 'answers/form', locals: { answer: @exposed_answer }
+.new_answer
+  h3= 'Create new answer'
+  = render 'answers/form', locals: { answer: @exposed_answer }
 
 .answers
   h3= 'Answers'

@@ -9,11 +9,12 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    ul.menu
+    menu
       = render 'devise/menu/sign_out_items'
+      | | 
       = render 'devise/menu/sign_in_items'
-
-      = link_to '| Awards', rewards_path
+      | |
+      = link_to 'Awards', rewards_path
 
     p.notice= notice
     p.alert= alert

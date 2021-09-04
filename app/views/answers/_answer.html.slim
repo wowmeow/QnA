@@ -1,5 +1,5 @@
 - if answer.persisted?
-  div id = "answer_#{answer.id}"
+  div id = "answer-#{answer.id}"
     - if answer.best?
       h4[class="best"]= "The best answer:"
       p[class="best"]= answer.body
@@ -15,6 +15,7 @@
           = render answer.links
 
     = render 'shared/attachments', resource: answer
+    = render 'votes/vote', resource: answer
 
     p
       - if current_user&.author_of?(answer.question) && !answer.best?

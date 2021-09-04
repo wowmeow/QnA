@@ -1,27 +1,36 @@
 - if question.persisted?
-  div id = "question_#{question.id}"
-    p= link_to question.title, question_path(question)
+  h1= question.title
+  p= question.body
 
-    - if current_user&.author_of?(question)
-      = link_to 'Delete question', question_path(question), method: :delete, locale: false
-      |  |
-      = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
+  .links
+    - unless question.links.empty?
+      p Links:
+      ul
+        = render question.links
 
-      = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |f|
-        .edit-question-errors
-        p
-          = f.label :title, 'Title'
-          = f.text_field :title
-        p
-          = f.label :body, 'Your question'
-          = f.text_area :body, id: "question_body-#{question.id}"
-        p
-          = f.label :files
-          = f.file_field :files, multiple: true, direct_upload: true
+  p= render 'shared/attachments', resource: question
+  p= render 'votes/vote', resource: question
 
-        .links-form
-          p Links:
-          = render 'links/form', f: f
+  - if current_user&.author_of?(question)
+    = link_to 'Delete question', question_path(question), method: :delete, locale: false
+    |  |
+    = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
 
-        p
-          = f.submit 'Save'
+    = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |f|
+      .edit-question-errors
+      p
+        = f.label :title, 'Title'
+        = f.text_field :title
+      p
+        = f.label :body, 'Your question'
+        = f.text_area :body, id: "question_body-#{question.id}"
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
+
+      .links-form
+        p Links:
+        = render 'links/form', f: f
+
+      p
+        = f.submit 'Save'

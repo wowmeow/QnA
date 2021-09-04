@@ -11,39 +11,42 @@ feature 'User can edit his question', "
 
     background do
       sign_in(question.user)
-      visit questions_path
+      visit question_path(question)
 
       click_on 'Edit'
     end
 
     scenario 'edits his question' do
-      find("#question_body-#{question.id}").fill_in(with: 'Edited question')
-      click_on 'Save'
+      within '.question' do
+        fill_in 'Title', with: 'Edited question'
+        click_on 'Save'
 
-      visit questions_path
-      expect(page).to_not have_selector 'textarea'
+        expect(page).to_not have_selector 'textarea'
 
-      visit question_path(question)
-      expect(page).to_not have_content question.body
-      expect(page).to have_content 'Edited question'
+        expect(page).to_not have_content question.title
+        expect(page).to have_content 'Edited question'
+
+      end
     end
 
     scenario 'when editing attaches files to the question' do
-      attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
-      click_on 'Save'
+      within '.question' do
+        attach_file 'Files', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
+        click_on 'Save'
 
-      visit question_path(question)
-
-      expect(page).to have_link 'rails_helper.rb'
-      expect(page).to have_link 'spec_helper.rb'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
     end
 
     scenario 'edits his question with errors' do
-      find("#question_body-#{question.id}").fill_in(with: '')
-      click_on 'Save'
+      within '.question' do
+        fill_in 'Title', with: ''
+        click_on 'Save'
 
-      expect(page).to have_content question.body
-      expect(page).to have_content "Body can't be blank"
+        expect(page).to have_content question.body
+        expect(page).to have_content "Title can't be blank"
+      end
     end
   end
 
@@ -52,15 +55,15 @@ feature 'User can edit his question', "
 
     scenario "tries to edit other user's question" do
       sign_in(user)
-      visit questions_url
+      visit question_path(question)
 
-      expect(page).to_not have_link 'Edit'
+      within '.question' do
+        expect(page).to_not have_link 'Edit'
+      end
     end
   end
 
   scenario 'Unauthenticated can not edit question' do
-    visit questions_url
-
     expect(page).to_not have_link 'Edit'
   end
 end
