@@ -3,6 +3,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, except: %i[show]
   before_action :question, only: :create
+  after_action :publish_answer, only: :create
 
   expose :question, -> { Question.find(params[:question_id]) if params[:question_id] }
   expose :answer, find: -> { Answer.with_attached_files.find(params[:id]) }
@@ -34,5 +35,20 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, :best, files: [], links_attributes: %i[id name url _destroy])
+  end
+
+  def publish_answer
+    return unless answer.valid?
+
+    QuestionChannel.broadcast_to(
+      answer.question,
+      {
+        answer:
+          ApplicationController.render(
+            partial: 'answers/answer_for_quest',
+            locals: { answer: answer }
+          ),
+        user_id: current_user.id }
+    )
   end
 end
