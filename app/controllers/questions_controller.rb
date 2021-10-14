@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   include Voted
 
   before_action :authenticate_user!, except: %i[index show]
+  after_action :publish_question, only: :create
 
   expose(:questions) { Question.all }
   expose :question, find: -> { Question.with_attached_files.find(params[:id]) }
@@ -40,8 +41,21 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [],
-                                     links_attributes: %i[id name url _destroy],
-                                     reward_attributes: [:id, :title, :image, :_destroy])
+    params.require(:question).
+      permit(:title, :body, files: [],
+             links_attributes: %i[id name url _destroy],
+             reward_attributes: [:id, :title, :image, :_destroy])
+  end
+
+  def publish_question
+    return unless question.valid?
+
+    ActionCable.server.broadcast(
+      'questions',
+      { question_item:
+          ApplicationController.render(
+            partial: 'questions/question_for_guest',
+            locals: { question: question }
+          )})
   end
 end
